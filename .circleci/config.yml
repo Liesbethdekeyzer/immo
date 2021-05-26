@@ -16,8 +16,24 @@ jobs:
       - run:
           name: Test
           command: mvn test
+  deploy:
+    docker:
+      - image: circleci/openjdk:8-jdk-node-browsers
+    steps:
+      - checkout
+      - restore_cache:
+           key: v3-YOUR-PROJECT-{{ checksum ".circleci/install-and-activate-google-cloud-sdk.sh" }}
+      - run: mvn dependency:go-offline
+      - run: /bin/bash .circleci/install-and-activate-google-cloud-sdk.sh
+      - run: mvn appengine:deploy
+      - save_cache:
+          key: v3-immo-{{ checksum ".circleci/install-and-activate-google-cloud-sdk.sh" }}
+          paths:
+            - ~/google-cloud-sdk
+            - ~/.m2
 
 workflows:
   sample:
     jobs:
       - build-and-test
+      - deploy
