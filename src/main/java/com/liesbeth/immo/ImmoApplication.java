@@ -19,5 +19,10 @@ public class ImmoApplication {
 		public String hello() {
 			return "hello world!";
 		}
+
+		@GetMapping("/test")
+		public String test() {
+			return "test endpoint";
+		}
 	}
 }
