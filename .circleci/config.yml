@@ -3,9 +3,9 @@
 version: 2.1
 
 jobs:
-  build-and-test:
+  build-test-deploy:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: circleci/openjdk:11-jdk-node-browsers-legacy
     steps:
       # Checkout the code as the first step.
       - checkout
@@ -16,13 +16,8 @@ jobs:
       - run:
           name: Test
           command: mvn test
-  deploy:
-    docker:
-      - image: circleci/openjdk:8-jdk-node-browsers
-    steps:
-      - checkout
       - restore_cache:
-           key: v3-YOUR-PROJECT-{{ checksum ".circleci/install-and-activate-google-cloud-sdk.sh" }}
+           key: v3-immo-{{ checksum ".circleci/install-and-activate-google-cloud-sdk.sh" }}
       - run: mvn dependency:go-offline
       - run: /bin/bash .circleci/install-and-activate-google-cloud-sdk.sh
       - run: mvn appengine:deploy
@@ -35,5 +30,4 @@ jobs:
 workflows:
   sample:
     jobs:
-      - build-and-test
-      - deploy
+      - build-test-deploy
