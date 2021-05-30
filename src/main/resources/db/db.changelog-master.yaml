@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: db/db.changelog-V1-2021-create-project-table.yaml

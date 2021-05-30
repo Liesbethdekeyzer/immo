@@ -12,10 +12,9 @@ jobs:
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
-      # Then run your tests!
       - run:
           name: Test
-          command: mvn test
+          command: mvn test -Dspring.profiles.active=dev
       - restore_cache:
            key: v3-immo-{{ checksum ".circleci/install-and-activate-google-cloud-sdk.sh" }}
       - run: mvn dependency:go-offline

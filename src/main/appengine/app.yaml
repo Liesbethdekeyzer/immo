@@ -1,2 +1,6 @@
 runtime: java11
 instance_class: F4
+
+env_variables:
+  SPRING_PROFILES_ACTIVE: "prod"
+  GCP_SECRETS_ENABLED: true
